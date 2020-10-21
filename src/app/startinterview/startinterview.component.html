@@ -1,0 +1,153 @@
+<div class="uk-container">
+  <br />
+  <br />
+  <div *ngIf="dataParam.nqt!==0">
+    <dl class="uk-description-list uk-description-list-divider">
+      <dt>Name of Interview</dt>
+      <dd>{{ dataParam.nameInterview | titlecase }}</dd>
+      <dt>Question</dt>
+      <dd>{{ dataParam.questiontext | titlecase }}</dd>
+      <dt>Response</dt>
+      <button type="button" class="btn btn-primary">
+        Number of Response <span class="badge badge-light"> {{dataParam.nqt}}</span>
+        <span class="sr-only">{{dataParam.nqt}}</span>
+      </button>
+      <dd>
+        <form #faw="ngForm" (ngSubmit)="sendMessage(faw)">
+          <div class="uk-margin">
+            <textarea
+              class="uk-textarea"
+              rows="5"
+              placeholder="Your response"
+              ngModel
+              name="response"
+              #response="ngModel"
+              required
+            ></textarea>
+            <div
+              class="uk-alert-danger"
+              uk-alert
+              *ngIf="response.invalid && response.touched"
+            >
+              <p>Response is required</p>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="faw.invalid"
+          >
+            Send
+          </button>
+          <div class="alert alert-success" *ngIf="messageSendToUser">{{messageSendToUser}}</div>
+        </form>
+      </dd>
+    </dl>
+  </div>
+  <br />
+  <div *ngIf="dataParam.nqi!==0">
+    <dl class="uk-description-list uk-description-list-divider">
+      <dt>Name of Interview</dt>
+      <dd>{{ dataParam.nameInterview | titlecase }}</dd>
+      <dt>Question</dt>
+      <dd>{{ dataParam.questionimage | titlecase }}</dd>
+      <dt>Response</dt>
+      <button type="button" class="btn btn-primary">
+        Number of Response <span class="badge badge-light"> {{dataParam.nqi}}</span>
+        <span class="sr-only">{{dataParam.nqi}}</span>
+      </button>
+      <dd>
+        <div>
+          <input
+            type="file"
+            (change)="uploadImage($event)"
+            accept=".png,.jpg,.svg"
+          /><br />
+        </div>
+        <div *ngIf="persentange | async as pct">
+          <div *ngIf="pct == 100"  class="alert alert-success">Upload Successfully ! Your Image Sent To Your User</div>
+                    
+          <progress
+            id="js-progressbar"
+            class="uk-progress"
+            [value]="pct"
+            max="100"
+          ></progress>
+        </div>
+      </dd>
+    </dl>
+  </div>
+  <br />
+  <div *ngIf="dataParam.nqf!==0">
+    <dl class="uk-description-list uk-description-list-divider">
+      <dt>Name of Interview</dt>
+      <dd>{{ dataParam.nameInterview | titlecase }}</dd>
+      <dt>Question</dt>
+      <dd>{{ dataParam.questionfile | titlecase }}</dd>
+      <dt>Response</dt>
+      <button type="button" class="btn btn-primary">
+        Number of Response <span class="badge badge-light"> {{dataParam.nqf}}</span>
+        <span class="sr-only">{{dataParam.nqf}}</span>
+      </button>
+      <dd>
+        <div *ngIf="persentange1 | async as pctt">
+          <div *ngIf="pctt == 100" class="alert alert-success">Upload Successfully ! Your File Sent To Your User</div>
+          <progress
+            id="js-progressbar"
+            class="uk-progress"
+            [value]="pctt"
+            max="100"
+          ></progress>
+        </div>
+        <div><input type="file" (change)="uploadFile($event)" /><br /></div>
+      </dd>
+    </dl>
+  </div>
+  <br /><br />
+  <div
+    *ngIf="dataParam.nqv!==0"
+  >
+    <dl class="uk-description-list uk-description-list-divider">
+      <dt>Name of Interview</dt>
+      <dd>{{ dataParam.nameInterview | titlecase }}</dd>
+      <dt>Question</dt>
+      <dd>{{ dataParam.questionvideo | titlecase }}</dd>
+      <dt>Response</dt>
+      <button type="button" class="btn btn-primary">
+        Number of Response <span class="badge badge-light"> {{dataParam.nqv}}</span>
+        <span class="sr-only">{{dataParam.nqv}}</span>
+      </button>
+     
+      <div class="content" role="main">
+        <div class="card-container">
+          
+          <progress max="100" class="uk-progress" [value]="uploadProgress"></progress>
+          <div *ngIf="uploadProgress == 100" class="alert alert-success">Upload Successfully ! Your Video Sent To Your User</div>
+          <div class="alert alert-primary" role="alert">
+            This interview just {{dataParam.minute}} min
+          </div>          
+         <div *ngIf="counter" class="alert alert-danger" role="alert">{{counter}}</div>
+          <div style="margin-top: 10px">
+            <button [disabled]="!is_record" class="btn btn-primary" (click)="record()">Record</button>
+            &nbsp;
+            <button [disabled]="is_record" class="btn btn-danger" (click)="stop()">Stop</button>
+            &nbsp;
+            <button [disabled]="is_file" class="btn btn-success" (click)="upload()">Upload</button>
+          </div>
+          <div style="margin-top: 10px">
+            <video autoplay></video>
+          </div>
+        </div>
+      </div>
+    </dl>
+  </div>
+</div>
+<div class="uk-position-center uk-overlay uk-overlay-default" *ngIf="dataParam.nqv===0 && dataParam.nqf===0 && dataParam.nqt===0 && dataParam.nqi===0">
+  <img src="assets/smile.png" alt="">
+  <h4 style="color: #4c4c4d;
+  margin-left: 16px;
+  margin-top: 15px;">This Interview is Finished</h4>
+</div>
+<!--<div class="alert alert-success" style="text-align: center;">When You Response For All The questions,click <a href="#" class="alert-link">I finish</a></div>
+<button class="btn btn-success" style="width: 100%;" (click)="finish()">I Finish</button>-->
+<br><br>

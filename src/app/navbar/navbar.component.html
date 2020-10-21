@@ -1,0 +1,55 @@
+ <!--   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" routerLink="/">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" routerLink="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" *ngIf="admin">
+              <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+            </li>
+            <li class="nav-item" *ngIf="!admin && user && isUserConnect">
+                <a class="nav-link" routerLink="/myworkers">My Workers</a>
+              </li>
+              <li class="nav-item" *ngIf="!admin && user && isUserConnect">
+                <a class="nav-link" routerLink="/message">Message</a>
+              </li>
+              <li class="nav-item" *ngIf="user && !admin">
+                <a class="nav-link" routerLink="/myinterview">My Interview</a>
+              </li>
+              <li class="nav-item" *ngIf="!user">
+                <a class="nav-link" routerLink="/login">Login</a>
+              </li>
+              
+            
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <button type="button" class="btn btn-danger" *ngIf="user" (click)="logout()">Logout</button>
+          </form>
+        </div>
+      </nav>-->
+      
+      <nav class="navbar navbar-expand-md navigation sidebar-left block bg-contrast">
+        <div class="container py-4"><button class="navbar-toggler" type="button"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a href="#main" class="navbar-brand"><img src="assets/img/logo.png" alt="Dashcore" class="logo logo-sticky"></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> 
+          <div class="collapse navbar-collapse ml-auto">
+                <div class="sidebar-brand"><a href="#main"><img src="assets/img/logo.png" alt="Dashcore Template" class="logo"></a></div>
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" routerLink="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" *ngIf="!admin" routerLink="/contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" *ngIf="!admin" routerLink="/pricing">Pricing</a></li>
+                    <li class="nav-item" *ngIf="admin"><a class="nav-link" routerLink="/dashboard">Dashboard</a></li>
+                    <li class="nav-item" *ngIf="!admin && user"><a class="nav-link" routerLink="/myworkers">My Workers</a></li>
+                    <li class="nav-item" *ngIf="!admin && user"><a class="nav-link" routerLink="/message">Message</a></li>
+                    <li class="nav-item" *ngIf="!admin && user"><a class="nav-link" routerLink="/myinterview">My Interview</a></li>
+                </ul>
+                <nav class="nav navbar-nav ml-md-auto justify-content-center mt-4 mt-md-0 flex-row"><a class="btn btn-rounded btn-outline-primary mr-3 px-3" routerLink="/login"  *ngIf="!user"><i class="fas fa-sign-in-alt d-none d-md-inline mr-md-0 mr-lg-2"></i> <span class="d-md-none d-lg-inline">Login</span> </a><button type="button" class="btn btn-danger" *ngIf="user" (click)="logout()">Logout</button><a class="btn btn-rounded btn-primary px-3" routerLink="/contact"  *ngIf="!user"><i class="fas fa-user-plus d-none d-md-inline mr-md-0 mr-lg-2"></i> <span class="d-md-none d-lg-inline">Signup</span></a></nav>
+            </div>
+        </div>
+    </nav>

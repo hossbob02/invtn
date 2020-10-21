@@ -1,0 +1,71 @@
+<div class="uk-container">
+    <br>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name Worker</th>
+                <th scope="col">Interview name</th>
+                <th scope="col">Type of Interview</th>
+                <th scope="col">Questions</th>
+                <th scope="col">Date & Time</th>
+                <th scope="col">Status</th>
+                <th scope="col">Link Interview</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of myInterview">
+                <ng-container *ngIf="item.uidUser===uid">
+                 <td>{{item.nameWorker | titlecase }}</td>   
+                <td>{{item.nameInterview | titlecase }}</td>
+                <td><h6 *ngIf="item.typefile">File</h6><h6 *ngIf="item.typeimage"> Image</h6><h6 *ngIf="item.typetext"> Text</h6><h6 *ngIf="item.typevideo"> Video</h6></td>
+                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" (click)="questions(item.typeInterviewtext,item.typeInterviewimage,item.typeInterviewfile,item.typeInterviewvideo,item.questionfile,item.questionimage,item.questiontext,item.questionvideo)">
+                    Questions
+                  </button></td>
+                <td>{{item.time | titlecase }}</td>
+                <td style="color: green;">SEND</td>
+                <td><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Show Link</button></td>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                            {{item.linkInterview}}
+                    </div>
+                  </div>
+                  <!---->
+                  
+
+
+                  <!---->
+                </ng-container>
+                
+            </tr>
+            
+        </tbody>
+    </table>
+    
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+           <p *ngIf="dataquestion.typeInterviewfile">File: {{dataquestion.questionfile}}</p>
+          <p *ngIf="dataquestion.typeInterviewimage">Image: {{dataquestion.questionimage}}</p>  
+            <p *ngIf="dataquestion.typeInterviewtext">Text: {{dataquestion.questiontext}} </p>
+          <p *ngIf="dataquestion.typeInterviewvideo">Video: {{dataquestion.questionvideo}}</p>  
+           
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>

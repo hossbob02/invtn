@@ -1,0 +1,312 @@
+<div class="uk-container">
+  <br />
+  <br />
+  <h5 style="text-align: center">*** My Workers ***</h5>
+  <br />
+  <button class="btn btn-info" (click)="myworkerAccept()" style="margin-left: 5px;">
+    My Worker Accept
+  </button>
+ <!-- <button class="btn btn-info" (click)="waitingList()" style="margin-left: 5px;">
+    Waiting List
+  </button>-->
+
+ 
+  <div [style.display]="Myworkerstate.myworkerAccept">
+    <br />
+    <h4 style="text-align: center">All workers</h4>
+    <div class="alert alert-danger" role="alert" *ngIf="verifInterview===0">
+      You can't make interviews, because you have 0 interview ! you should contact admin. 
+    </div>
+    <button
+    class="btn btn-primary"
+    style="float: right"
+    href="#modal-centerw"
+    uk-toggle
+  >
+    Add Worker
+  </button>
+    
+    
+    <button type="button" class="btn btn-primary">
+      Interviews <span class="badge badge-light">{{verifInterview}}</span>
+    </button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Document Id</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of worker">
+          <ng-container *ngIf="item.uidUser === uid">
+            <td>{{ item.name }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.id }}</td>
+            <td>
+              
+              <button *ngIf="verifInterview!=0"
+                class="btn btn-primary"
+                uk-toggle="target: #modal-exampleinterview"
+                (click)="
+                  getdatainterview(
+                    item.name,
+                    item.email,
+                    item.id,
+                    item.nameUser
+                  )
+                "
+              >
+                Add interview
+              </button>
+              <button class="btn btn-danger" (click)="deleteMyWorker(item.id)">Delete</button>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--
+  <div [style.display]="Myworkerstate.waitingList">
+    <br />
+    <h4 style="text-align: center">Waiting List</h4>
+    <br />
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of allworker">
+          <ng-container *ngIf="item.uiduser === uid">
+            <td>{{ item.name }}</td>
+            <td>{{ item.email }}</td>
+            <td>
+              <button
+                class="btn btn-danger"
+                onclick="UIkit.notification({message: 'Successful delete this worker...', status: 'success'})"
+                (click)="delete(item.id)"
+              >
+                Delete
+              </button>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+-->
+<div id="modal-centerw" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <form #fw="ngForm" (ngSubmit)="addWorker(fw)">
+      <br />
+      <h5 style="text-align: center">*** Add new worker ***</h5>
+      <br />
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="name"
+          #name="ngModel"
+          type="text"
+          placeholder="Name"
+          required
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="name.invalid && name.touched"
+        >
+          <p>Name is required</p>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="email"
+          #email="ngModel"
+          type="text"
+          placeholder="Email"
+          required
+          email
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="email.touched && email.errors?.required"
+        >
+          <p>Email is required</p>
+        </div>
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="email.touched && email.errors?.email"
+        >
+          <p>This email doesn't match email format</p>
+        </div>
+      </div>
+   <!--   <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="password"
+          #password="ngModel"
+          type="text"
+          placeholder="password"
+          required
+          minlength="8"
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="password.touched && password.errors?.required"
+        >
+          <p>Password is required</p>
+        </div>
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="password.touched && password.errors?.minlength"
+        >
+          <p>Password should be +8 caracter</p>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="Confirmpassword"
+          #Confirmpassword="ngModel"
+          type="text"
+          placeholder="Confirm password"
+          required
+          minlength="8"
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="Confirmpassword.invalid && Confirmpassword.touched"
+        >
+          <p>Confirm password is required</p>
+        </div>
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="
+            password.value !== Confirmpassword.value && Confirmpassword.touched
+          "
+        >
+          <p>Passwords not equal</p>
+        </div>
+      </div>-->
+      <div class="uk-alert-success" uk-alert *ngIf="workerSentToAdmin">
+        <p>{{ workerSentToAdmin }}</p>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="fw.invalid"
+        class="uk-button uk-button-primary"
+      >
+        Add worker
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="modal-exampleinterview" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body">
+    <form>
+      <div class="uk-margin">
+        <label class="uk-form-label" for="form-stacked-text"
+          >Choose Type of Interview</label
+        >
+        <div class="uk-margin">
+          <input
+            class="uk-input uk-form-width-large"
+            type="text"
+            name="nameInterview"
+            [(ngModel)]="type.nameInterview"
+            placeholder="Name of interview"
+          />
+        </div>
+        <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <label><input class="uk-checkbox" type="checkbox" name="text" [(ngModel)]="checkbock.text">Text</label>
+          <label><input class="uk-checkbox" type="checkbox" name="image" [(ngModel)]="checkbock.image">Image</label>
+          <label><input class="uk-checkbox" type="checkbox" name="file" [(ngModel)]="checkbock.file">File</label>
+          <label><input class="uk-checkbox" type="checkbox" name="video" [(ngModel)]="checkbock.video">Video</label>
+      </div>
+        <div class="uk-margin" *ngIf="checkbock.text">
+          <textarea
+           
+            class="uk-input uk-form-width-large"
+            name="question"
+            [(ngModel)]="type.questiontext"
+            placeholder="Questions for response text ?"
+          ></textarea>
+          <input class="uk-input uk-form-width-medium uk-form-small" name="nqt" [(ngModel)]="type.nqt" type="number" placeholder="Number of questions text">(Number of questions text)
+        </div>
+        <div class="uk-margin" *ngIf="checkbock.image">
+          <textarea 
+            class="uk-input uk-form-width-large"
+            name="question"
+            [(ngModel)]="type.questionimage"
+            placeholder="Questions for response image ?"
+          ></textarea>
+          <input class="uk-input uk-form-width-medium uk-form-small" name="nqi" [(ngModel)]="type.nqi" type="number" placeholder="Number of questions image">(Number of questions image)
+        </div>
+        <div class="uk-margin" *ngIf="checkbock.file">
+          <textarea 
+            class="uk-input uk-form-width-large"
+            name="question"
+            [(ngModel)]="type.questionfile"
+            placeholder="Questions for response file ?"
+          ></textarea>
+          <input class="uk-input uk-form-width-medium uk-form-small" name="nqf" [(ngModel)]="type.nqf" type="number" placeholder="Number of questions file">(Number of questions file)
+        </div>
+        <div class="uk-margin" *ngIf="checkbock.video">
+          <textarea 
+            class="uk-input uk-form-width-large"
+            name="question"
+            [(ngModel)]="type.questionvideo"
+            placeholder="Questions for response video ?"
+          ></textarea>
+          <input class="uk-input uk-form-width-medium uk-form-small" name="nqv" [(ngModel)]="type.nqv" type="number" placeholder="Number of questions video">(Number of questions video)
+        </div>
+        <div class="uk-margin"  *ngIf="checkbock.video">
+          <div class="uk-inline">
+              <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: clock"></span>
+              <input class="uk-input" type="number" placeholder="number of minute" name="minute" [(ngModel)]="type.minute">
+          </div>
+      </div>
+      </div>
+      <div class="uk-alert-success" uk-alert *ngIf="successAddInterview">
+        <p>{{successAddInterview}}</p>
+    </div>
+    <div class="alert alert-warning" uk-alert *ngIf="linkQuestion">
+      <p>{{linkQuestion}}</p>
+  </div>
+    
+    </form>
+    <p class="uk-text-right">
+      <button class="uk-button uk-button-default uk-modal-close" type="button">
+        Cancel
+      </button>
+      <button
+        class="uk-button uk-button-primary"
+        type="button"
+        (click)="addInterview()"
+      >
+        Yes
+      </button>
+    </p>
+  </div>
+</div>

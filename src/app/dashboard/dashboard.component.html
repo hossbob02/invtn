@@ -1,0 +1,352 @@
+<div class="uk-container">
+  <br />
+  <br />
+  <button class="btn btn-info" (click)="listuser()" style="margin-left: 4px;">
+    List Users
+  </button>
+  <button class="btn btn-info" (click)="listallworker()" style="margin-left: 4px;">
+    All Workers
+  </button>
+  <button class="btn btn-info" (click)="listContact()" style="margin-left: 4px;">
+    List Contacts
+  </button>
+
+  <br />
+  <br />
+  <div [style.display]="dataDisplay.tableUser">
+    <button
+      class="btn btn-primary"
+      style="float: right"
+      href="#modal-center"
+      uk-toggle
+    >
+      Add User
+    </button>
+    <h4>List of users</h4>
+  
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Company</th>
+          <th scope="col">Email</th>
+          <th scope="col">Interview</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of users">
+          <td>{{ item.name | titlecase }}</td>
+          <td>{{ item.company | titlecase }}</td>
+          <td>{{ item.email | titlecase }}</td>
+          <td>{{ item.interview }}</td>
+          <td><button type="button" class="btn btn-success" href="#modal-centerupdateuser"
+            uk-toggle
+            (click)="
+              updateUser(
+                item.id,
+                item.name,
+                item.company,
+                item.email,
+                item.interview
+              )
+            ">Update</button>
+            <button class="btn btn-danger" (click)="deleteUser(item.id)" style="margin-left:5px;">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+  <div [style.display]="dataDisplay.allworkers">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name worker</th>
+          <th scope="col">Email worker</th>
+          <th scope="col">Name User</th>
+          <th scope="col">Company</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let work of allworker">
+          <td>{{ work.name | titlecase}}</td>
+          <td>{{ work.email | titlecase}}</td>
+        <td>{{work.nameUser | titlecase}}</td>
+        <td>{{work.company | titlecase}}</td>
+        <td style="color: green;">Accept</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div [style.display]="dataDisplay.listContact">
+    <h4>List of Contacts</h4>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of contact">
+          <td>{{ item.name | titlecase}}</td>
+          <td>{{ item.email | titlecase}}</td>
+          <td>{{ item.subject | titlecase }}</td>
+          <td>
+            <button
+              class="btn btn-primary"
+              href="#modal-centerMessage"
+              uk-toggle
+              (click)="showMessage(item.message,item.name)"
+            >
+              Details
+            </button>
+            
+
+          </td>
+          <div id="modal-centerMessage" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+              <button
+                class="uk-modal-close-default"
+                type="button"
+                uk-close
+              ></button>
+              <h5>Message By {{ dataMessage.name | titlecase }}</h5>
+              <p>{{ dataMessage.message }}</p>
+            </div>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div id="modal-center" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+    <form #f="ngForm" (ngSubmit)="addUser(f)">
+      <br />
+      <h5 style="text-align: center">*** Add new user ***</h5>
+      <br />
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="name"
+          #name="ngModel"
+          type="text"
+          placeholder="Name"
+          required
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="name.invalid && name.touched"
+        >
+          <p>Name is required</p>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="company"
+          #company="ngModel"
+          type="text"
+          placeholder="Company"
+          required
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="company.invalid && company.touched"
+        >
+          <p>Company is required</p>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="email"
+          #email="ngModel"
+          type="text"
+          placeholder="Email"
+          required
+          email
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="email.touched && email.errors?.required"
+        >
+          <p>Email is required</p>
+        </div>
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="email.touched && email.errors?.email"
+        >
+          <p>This email doesn't match email format</p>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="uid"
+          #uid="ngModel"
+          type="text"
+          placeholder="UID"
+          required
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="uid.invalid && uid.touched"
+        >
+          <p>UID is required</p>
+        </div>
+      </div>
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="interview"
+          #interview="ngModel"
+          type="number"
+          placeholder="Number of interview"
+          required
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="interview.invalid && interview.touched"
+        >
+          <p>Interview is required</p>
+        </div>
+      </div>
+      <div class="uk-alert-success" uk-alert *ngIf="successMessage">
+        <p>{{ successMessage }}</p>
+      </div>
+      <button
+        type="submit"
+        [disabled]="f.invalid"
+        class="uk-button uk-button-primary"
+      >
+        Add user
+      </button>
+    </form>
+  </div>
+</div>
+<div id="modal-centerworker" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+
+    <form #faw="ngForm" (ngSubmit)="acceptWorker(faw)">
+      <input
+        class="uk-input uk-form-width-large"
+        type="text"
+        value="{{ dataWorker.name }}"
+        disabled
+      />
+      <input
+        class="uk-input uk-form-width-large"
+        type="text"
+        value="{{ dataWorker.email }}"
+        disabled
+      />
+      <input
+        class="uk-input uk-form-width-large"
+        type="text"
+        value="{{ dataWorker.password }}"
+        disabled
+      />
+      Name of User
+      <input
+        class="uk-input uk-form-width-large"
+        type="text"
+        value="{{ dataWorker.nameUser }}"
+        disabled
+      />
+      Name of company
+      <input
+        class="uk-input uk-form-width-large"
+        type="text"
+        value="{{ dataWorker.company }}"
+        disabled
+      />
+      <div class="uk-margin">
+        <input
+          class="uk-input uk-form-width-large"
+          ngModel
+          name="uidd"
+          #uidd="ngModel"
+          type="text"
+          placeholder="UID"
+          required
+        />
+        <div
+          class="uk-alert-danger"
+          uk-alert
+          *ngIf="uidd.invalid && uidd.touched"
+        >
+          <p>UID is required</p>
+        </div>
+      </div>
+      <div class="uk-alert-success" uk-alert *ngIf="successWorkerAccept">
+        <p>{{ successWorkerAccept }}</p>
+      </div>
+
+      <button
+        type="submit"
+        class="uk-button uk-button-primary"
+        [disabled]="faw.invalid"
+      >
+        Accept Worker
+      </button>
+    </form>
+  </div>
+</div>
+<div id="modal-centerupdateuser" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+
+    <form>
+      <div class="uk-margin">
+        <input
+          class="uk-input"
+          type="text"
+          name="name"
+          [(ngModel)]="userUpdate.name"
+        />
+      </div>
+      <div class="uk-margin">
+        <input
+          class="uk-input"
+          type="text"
+          name="company"
+          [(ngModel)]="userUpdate.company"
+        />
+      </div>
+      <div class="uk-margin">
+        <input
+          class="uk-input"
+          type="number"
+          name="interview"
+          [(ngModel)]="userUpdate.interview"
+        />
+      </div>
+      <div class="uk-alert-success" uk-alert *ngIf="messageUpdate">
+        <p>{{ messageUpdate }}</p>
+      </div>
+
+      <button class="uk-button uk-button-primary" (click)="updateUserById()">
+        Update
+      </button>
+    </form>
+  </div>
+</div>

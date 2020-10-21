@@ -1,0 +1,50 @@
+<div class="uk-container">
+  <br />
+  <br />
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name of worker</th>
+        <th scope="col">Name of interview</th>
+        <th scope="col">Type of interview</th>
+        <th scope="col">Receive Date</th>
+        <th scope="col">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let mess of message">
+        <ng-container *ngIf="mess.uidUser === uid">
+          <td>{{ mess.nameWorker }}</td>
+          <td>{{ mess.nameInterview }}</td>
+          <td>{{ mess.typeInterview }}</td>
+          <td>{{mess.time}}</td>
+          <td>
+            <button
+              class="btn btn-primary"
+              href="#modal-center"
+              uk-toggle
+              (click)="details(mess.question, mess.response,mess.typeInterview)"
+            >
+              Details
+            </button>
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div id="modal-center" class="uk-flex-top" uk-modal>
+  <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+    <button class="uk-modal-close-default" type="button" uk-close></button>
+
+    <dt>Questions</dt>
+    <dd>{{ responseWorker.question }}</dd>
+    <dt>Response</dt>
+    <dd *ngIf="responseWorker.type!=='video' && responseWorker.type!=='image'">{{responseWorker.response}}</dd>
+    <!--<dd>{{ responseWorker.response }}</dd>-->
+    <img [src]="responseWorker.response" alt="" *ngIf="responseWorker.type=='image'">
+    <button class="uk-button uk-button-default uk-margin" type="button" uk-toggle="target: +" *ngIf="responseWorker.type=='video'">Watch Response</button>
+    <video [src]="responseWorker.response" controls playsinline hidden uk-video *ngIf="responseWorker.type=='video'"></video>
+  </div>
+</div>
+
